@@ -4,8 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <div class="container">
+        <div class="library">
+            <div class="card">HEllo!</div>
+        </div>
+        <div class="input">
+        <button class="newBook">New Book</button>
+        </div>
+            
+    </div>
+
+
+
+<dialog id="myDialog"> 
+    <div class="dialog-content">
+        <div>
+        <span>Name: </span>
+            <input class="name" type="text">
+        </div>
+        <div>
+            <span>Author: </span>
+            <input class="author" type="text">
+        </div>
+        <div>
+            <span>Genre: </span>
+            <input class="genre" type="text">
+        </div>
+
+        <button commandfor="myDialog" command="close" class="cancel">Cancel</button>
+        <button commandfor="myDialog" command="close" class="confirm">Confirm</button>
+    </div>
+</dialog>
+
+
+    <script src="script.js"></script>
 </body>
 </html>

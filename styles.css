@@ -1,0 +1,56 @@
+.container{
+    display: grid;
+    grid-template-rows: 8fr 2fr;
+}
+
+.library{
+    grid-row: 1 / 2;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px;
+    gap: 1em;
+}
+
+
+.card{
+    width: calc((100% / 5) - 1em);
+    height: 200px;
+    border: 1px solid blue
+}
+
+
+.input{
+    grid-row: 2 / 3;
+    border: 1px solid red;
+    
+    display: flex;
+    flex-direction: row;
+
+    justify-content: right;
+}
+
+button{
+margin-right: 40px;
+width: 200px;
+}
+
+.dialog-content{
+    display: flex;
+    flex-direction: column;
+
+    gap: 1em;
+}
+
+.dialog-content > div {
+    display: flex;
+
+}
+
+.dialog-content > button {
+    flex: 1;
+}
+
+.dialog-content > div > * {
+    flex: 1;
+}
