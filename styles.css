@@ -15,7 +15,7 @@
 
 .card{
     width: calc((100% / 5) - 1em);
-    height: 200px;
+
     border: 1px solid blue
 }
 

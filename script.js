@@ -1,40 +1,34 @@
 const myLibrary = [];
 
-function Book(name, author, genre) {
-    this.name = name;
+
+const library = document.querySelector('.library');
+const newBook = document.querySelector('.newBook');
+const title = document.querySelector('.title')
+const author = document.querySelector('.author')
+const genre = document.querySelector('.genre');
+const confirmButton = document.querySelector('.confirm');
+const myDialog = document.querySelector('#myDialog')
+const readStatus = document.querySelector('.readStatus');
+
+function Book(title, author, genre, readStatus) {
+    this.title = title;
     this.author = author;
     this.genre = genre;
+    this.readStatus = readStatus;
     this.id = crypto.randomUUID();
 }
 
-function addBookToLibrary(name, author, genre){
-    let book = new Book(name, author, genre);
+Book.prototype.toggleRead = function () {
+    this.readStatus = !this.readStatus;
+}
+
+
+function addBookToLibrary(title, author, genre, readStatus){
+    let book = new Book(title, author, genre, readStatus);
     myLibrary.push(book);
 }
 
-function displayLibrary(library){
-    for(let i = 0; i <= library.length - 1; i++){
-        console.log(library[i].name)
-        console.log(library[i].author)
-        console.log(library[i].genre)
-        console.log(library[i].id);
-    }
-}
 
-let library = document.querySelector('.library');
-let newBook = document.querySelector('.newBook');
-
-
-
-let name = document.querySelector('.name')
-let author = document.querySelector('.author')
-let genre = document.querySelector('.genre')
-
-
-let confirmButton = document.querySelector('.confirm');
-
-
-const myDialog = document.querySelector('#myDialog')
 
 
 newBook.addEventListener('click', (e) =>{
@@ -45,26 +39,57 @@ newBook.addEventListener('click', (e) =>{
 
 confirmButton.addEventListener('click', (e) => {
 
-    let nameVal = name.value;
+    let titleVal = title.value;
     let authorVal = author.value;
     let genreVal = genre.value;
+    let readVal = readStatus.checked;
 
+    console.log(readVal);
+    addBookToLibrary(titleVal, authorVal, genreVal, readVal);
     
+    // *MOVE TO DISPLAY LIBRARY*
+    // let card = document.createElement('div');
+    // card.setAttribute('class', 'card')
+    // library.appendChild(card);
 
-    let card = document.createElement('div');
-    card.setAttribute('class', 'card')
-    library.appendChild(card);
-
-
-    name.value = "";
+    title.value = "";
     author.value = "";
     genre.value = "";
+    readStatus.value = "";
+
+    displayLibrary();
 })
 
+function displayLibrary(){
 
-addBookToLibrary('lebron', 'pikachu', 'horror')
-addBookToLibrary('1lebron', '2pikachu', '1horror')
+    library.innerHTML = "";
 
-displayLibrary(myLibrary);
+    myLibrary.forEach((book) => {
+        let card = document.createElement('div');
+        card.setAttribute('class', 'card')
+        card.innerHTML = `
+        <div class='book-content'>
+            <h2>Title: ${book.title}</h2>
+            <h3>Author: ${book.author}</h3>
+            <h3>Genre: ${book.genre}</h3>
+            <h4>Status: ${book.readStatus}</h4>
+            <p>Book ID: ${book.id}</p>
+        </div>
+        <div>
+            <button class="toggleRead">Toggle Read Status</button>
+            <button>Delete Book</button>
+        </div>
+        `
+        const toggleBtn = card.querySelector('.toggleRead');
 
-console.log(myLibrary.length)
+        toggleBtn.addEventListener('click', () =>{
+            book.toggleRead();
+            displayLibrary();
+        })
+
+
+        library.appendChild(card);
+    })
+}
+
+
