@@ -1,56 +1,371 @@
-.container{
-    display: grid;
-    grid-template-rows: 8fr 2fr;
+/* ==========================================================================
+   DESIGN SYSTEM & CUSTOM PROPERTIES
+   Palette: Aged Parchment (60%) | Raw Obsidian Ink (30%) | Cinnabar (10%)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Color Palette */
+  --bg-primary: #f4f1ea;        /* Aged Parchment */
+  --bg-surface: #eae5d9;        /* Soft Linen Accent */
+  --text-main: #141413;         /* Deep Obsidian Ink */
+  --text-muted: #5c5a54;        /* Weathered Graphite */
+  --border-color: #141413;      /* Crisp Structural Ink */
+  --accent-primary: #c23b22;    /* High-Contrast Cinnabar */
+  --accent-hover: #9e2a16;
+  --read-success: #2d5a27;      /* Deep Botanical Green */
+  
+  /* Typography */
+  --font-header: 'Cinzel', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.library{
-    grid-row: 1 / 2;
-    border: 1px solid black;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 16px;
-    gap: 1em;
+/* Base Reset & Framing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-
-.card{
-    width: calc((100% / 5) - 1em);
-
-    border: 1px solid blue
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  min-height: 100vh;
+  padding: 2.5rem 1.5rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-
-.input{
-    grid-row: 2 / 3;
-    border: 1px solid red;
-    
-    display: flex;
-    flex-direction: row;
-
-    justify-content: right;
+/* ==========================================================================
+   LAYOUT ENGINE & ASYMMETRIC CONTAINER
+   ========================================================================== */
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
 }
 
-button{
-margin-right: 40px;
-width: 200px;
+/* Desktop Asymmetrical Split: Action Sidebar Left (1 part), Library Right (3 parts) */
+@media (min-width: 900px) {
+  .container {
+    grid-template-columns: 280px 1fr;
+    grid-template-areas: "sidebar library";
+    align-items: start;
+  }
+  
+  .input {
+    grid-area: sidebar;
+    position: sticky;
+    top: 2.5rem;
+  }
+  
+  .library {
+    grid-area: library;
+  }
 }
 
-.dialog-content{
-    display: flex;
-    flex-direction: column;
-
-    gap: 1em;
+/* ==========================================================================
+   HEADER & TRIGGER SECTION (.input)
+   ========================================================================== */
+.input {
+  border: 1px solid var(--border-color);
+  padding: 2rem 1.5rem;
+  background-color: var(--bg-surface);
+  position: relative;
 }
 
-.dialog-content > div {
-    display: flex;
-
+.input::before {
+  content: "INDEX CATALOG v1.0";
+  display: block;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
 }
 
-.dialog-content > button {
-    flex: 1;
+.newBook {
+  width: 100%;
+  background-color: var(--text-main);
+  color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.875rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-radius: 0;
 }
 
-.dialog-content > div > * {
-    flex: 1;
+.newBook:hover {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.newBook:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   LIBRARY GRID (EDITORIAL ARCHIVAL CARDS)
+   ========================================================================== */
+.library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  border-radius: 0;
+  transition: border-color var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--accent-primary);
+}
+
+.book-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-bottom: 1.5rem;
+}
+
+.book-content h2 {
+  font-family: var(--font-header);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
+  word-break: break-word;
+}
+
+.book-content h3 {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.book-content h4 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.25rem;
+  color: var(--accent-primary);
+}
+
+/* ID Tag Micro-Details */
+.book-content p {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-top: 0.5rem;
+}
+
+/* Card Button Group */
+.card > div:last-child {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.toggleRead, 
+.delButton {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.625rem 0.5rem;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-main);
+  cursor: pointer;
+  border-radius: 0;
+  transition: all var(--transition-fast);
+}
+
+.toggleRead:hover {
+  background-color: var(--text-main);
+  color: var(--bg-primary);
+}
+
+.delButton {
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+}
+
+.delButton:hover {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   MODAL DIALOG (.dialog-content)
+   ========================================================================== */
+dialog#myDialog {
+  margin: auto;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  padding: 0;
+  max-width: 480px;
+  width: 90vw;
+  box-shadow: 12px 12px 0px 0px var(--border-color);
+  border-radius: 0;
+}
+
+dialog#myDialog::backdrop {
+  background-color: rgba(20, 20, 19, 0.65);
+  backdrop-filter: blur(2px);
+}
+
+.dialog-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.dialog-content::before {
+  content: "ENTRY FORM // ARCHIVE NEW TITLE";
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--accent-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dialog-content > div:not(:last-child) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.dialog-content span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+}
+
+.dialog-content input[type="text"] {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  padding: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-main);
+  border-radius: 0;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.dialog-content input[type="text"]:focus {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-primary);
+}
+
+/* Checkbox Row Override */
+.dialog-content > div:has(.readStatus) {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--bg-surface);
+  border-bottom: 1px solid var(--bg-surface);
+}
+
+.dialog-content input[type="checkbox"] {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  cursor: pointer;
+  position: relative;
+  border-radius: 0;
+}
+
+.dialog-content input[type="checkbox"]:checked {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.dialog-content input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: #ffffff;
+  font-size: 0.875rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Dialog Action Buttons */
+.dialog-content .cancel,
+.dialog-content .confirm {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.875rem;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  border-radius: 0;
+  margin-top: 0.5rem;
+  transition: all var(--transition-fast);
+}
+
+.dialog-content .cancel {
+  background-color: transparent;
+  color: var(--text-main);
+}
+
+.dialog-content .cancel:hover {
+  background-color: var(--bg-surface);
+}
+
+.dialog-content .confirm {
+  background-color: var(--text-main);
+  color: var(--bg-primary);
+}
+
+.dialog-content .confirm:hover {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
 }
