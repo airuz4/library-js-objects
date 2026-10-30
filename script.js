@@ -44,18 +44,13 @@ confirmButton.addEventListener('click', (e) => {
     let genreVal = genre.value;
     let readVal = readStatus.checked;
 
-    console.log(readVal);
     addBookToLibrary(titleVal, authorVal, genreVal, readVal);
     
-    // *MOVE TO DISPLAY LIBRARY*
-    // let card = document.createElement('div');
-    // card.setAttribute('class', 'card')
-    // library.appendChild(card);
 
     title.value = "";
     author.value = "";
     genre.value = "";
-    readStatus.value = "";
+    readStatus.checked = false;
 
     displayLibrary();
 })
@@ -77,7 +72,7 @@ function displayLibrary(){
         </div>
         <div>
             <button class="toggleRead">Toggle Read Status</button>
-            <button>Delete Book</button>
+            <button class="delButton">Delete Book</button>
         </div>
         `
         const toggleBtn = card.querySelector('.toggleRead');
@@ -88,8 +83,21 @@ function displayLibrary(){
         })
 
 
+        const delButton = card.querySelector('.delButton');
+
+        delButton.addEventListener('click', () => {
+            const index = myLibrary.findIndex(item => item.id === book.id);
+            if (index !== -1) {
+                myLibrary.splice(index, 1);
+            }
+            displayLibrary();
+        })
+
         library.appendChild(card);
     })
 }
 
 
+
+addBookToLibrary('Atomic Habits', 'James Clear', 'Self-help', 'false')
+displayLibrary();
